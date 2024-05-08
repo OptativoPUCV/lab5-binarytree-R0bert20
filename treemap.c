@@ -49,20 +49,40 @@ TreeMap * createTreeMap(int (*lower_than) (void* key1, void* key2)) {
 
 
 void insertTreeMap(TreeMap * tree, void* key, void * value) {
-    if (tree == NULL || tree->root == NULL) return;
-    if (searchTreeMap(tree, key) != NULL) return;
-    TreeNode * new = createTreeNode(key, value);
-    TreeNode * aux = tree->root;
-    TreeNode * parent = NULL;
-    while (aux != NULL){
+    if (tree == NULL || key == NULL) return;  // Ensure the tree and key are not null.
+    if (searchTreeMap(tree, key) != NULL) return;  // Avoid inserting duplicate keys.
+
+    // Create a new tree node with the given key and value.
+    TreeNode *newNode = createTreeNode(key, value);
+    if (newNode == NULL) return;  // Ensure the node was created successfully.
+
+    TreeNode *aux = tree->root;
+    TreeNode *parent = NULL;
+
+    // Find the correct position for the new node.
+    while (aux != NULL) {
         parent = aux;
-        if (tree->lower_than(key, aux->pair->key)) aux = aux->left;
-        else aux = aux->right;
+        if (tree->lower_than(key, aux->pair->key)) {
+            aux = aux->left;
+        } else {
+            aux = aux->right;
+        }
     }
-    new->parent = parent;
-    if (parent == NULL) tree->root = new;
-    else if (tree->lower_than(key, parent->pair->key)) parent->left = new;
-    else parent->right = new;
+
+    // Set the parent of the new node.
+    newNode->parent = parent;
+
+    // If the tree was empty, set the new node as the root.
+    if (parent == NULL) {
+        tree->root = newNode;
+    } else {
+        // Otherwise, connect the new node to the appropriate child of 'parent'.
+        if (tree->lower_than(key, parent->pair->key)) {
+            parent->left = newNode;
+        } else {
+            parent->right = newNode;
+        }
+    }
 }
     
  
