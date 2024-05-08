@@ -97,3 +97,9 @@ treemap.c:52:9: error: expected expression before ‘)’ token
       |         ^
 Compilation failed
 07a853e
+Wed 08 May 2024 03:27:05 PM UTC: 
+ treemap.c | 16 ++--------------
+ 1 file changed, 2 insertions(+), 14 deletions(-)
+ tests:  9|5
+total_score: 10/70
+b5c2db1
