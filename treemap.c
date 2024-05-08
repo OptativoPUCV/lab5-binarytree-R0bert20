@@ -49,17 +49,12 @@ TreeMap * createTreeMap(int (*lower_than) (void* key1, void* key2)) {
 
 
 void insertTreeMap(TreeMap * tree, void* key, void * value) {
-    if (tree == NULL || key == NULL) return;  // Ensure the tree and key are not null.
-    if (searchTreeMap(tree, key) != NULL) return;  // Avoid inserting duplicate keys.
-
-    // Create a new tree node with the given key and value.
-    TreeNode *newNode = createTreeNode(key, value);
-    if (newNode == NULL) return;  // Ensure the node was created successfully.
-
+    if (tree == NULL || key == NULL) return; 
+    if (searchTreeMap(tree, key) != NULL) return;  
+    TreeNode *new = createTreeNode(key, value);
+    if (new == NULL) return;  
     TreeNode *aux = tree->root;
     TreeNode *parent = NULL;
-
-    // Find the correct position for the new node.
     while (aux != NULL) {
         parent = aux;
         if (tree->lower_than(key, aux->pair->key)) {
@@ -68,22 +63,17 @@ void insertTreeMap(TreeMap * tree, void* key, void * value) {
             aux = aux->right;
         }
     }
-
-    // Set the parent of the new node.
-    newNode->parent = parent;
-
-    // If the tree was empty, set the new node as the root.
+    new->parent = parent;
     if (parent == NULL) {
-        tree->root = newNode;
+        tree->root = new;
     } else {
-        // Otherwise, connect the new node to the appropriate child of 'parent'.
         if (tree->lower_than(key, parent->pair->key)) {
-            parent->left = newNode;
+            parent->left = new;
         } else {
-            parent->right = newNode;
+            parent->right = new;
         }
     }
-    tree->current = newNode;
+    tree->current = new;
 }
     
  
@@ -92,7 +82,7 @@ TreeNode * minimum(TreeNode * x){
     while (x->left != NULL){
         x = x->left;
     }
-    return x;
+    return x;                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            
 }
 
 
