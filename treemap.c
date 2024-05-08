@@ -90,7 +90,7 @@ void removeNode(TreeMap * tree, TreeNode* node) {
             } 
         }
     }
-    free(node);
+    free(tree);
 }
 
 void eraseTreeMap(TreeMap * tree, void* key){
