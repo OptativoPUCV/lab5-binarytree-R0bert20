@@ -86,62 +86,7 @@ TreeNode * minimum(TreeNode * x){
 }
 
 
-void removeNode(TreeMap * tree, TreeNode* node) {
-    if (node == NULL) return;
-
-    TreeNode *child = NULL;  // Usado para almacenar el hijo único, si existe.
-
-    if (node->left == NULL || node->right == NULL) {
-        // El nodo tiene cero o un solo hijo.
-        child = (node->left != NULL) ? node->left : node->right;
-
-        if (node->parent == NULL) {
-            // El nodo es la raíz.
-            tree->root = child;
-        } else {
-            // El nodo no es la raíz. Actualizamos el enlace del padre.
-            if (node == node->parent->left) {
-                node->parent->left = child;
-            } else {
-                node->parent->right = child;
-            }
-        }
-        if (child != NULL) {
-            // Si hay un hijo, actualizamos su enlace parent.
-            child->parent = node->parent;
-        }
-    } else {
-        // El nodo tiene dos hijos. Necesitamos encontrar el sucesor mínimo en el subárbol derecho.
-        TreeNode *min = minimum(node->right);
-        // Remover el mínimo del subárbol derecho.
-        removeNode(tree, min);
-
-        // Reemplazamos 'node' con 'min'.
-        min->left = node->left;
-        min->right = node->right;
-        min->parent = node->parent;
-        if (node->left != NULL) node->left->parent = min;
-        if (node->right != NULL) node->right->parent = min;
-
-        if (node->parent == NULL) {
-            tree->root = min;
-        } else {
-            if (node == node->parent->left) {
-                node->parent->left = min;
-            } else {
-                node->parent->right = min;
-            }
-        }
-    }
-
-    // Liberar los recursos del nodo a eliminar.
-    free(node->pair->key);
-    free(node->pair);
-    free(node);
-}
-
-
-
+    
 void eraseTreeMap(TreeMap * tree, void* key){
     if (tree == NULL || tree->root == NULL) return;
     if (searchTreeMap(tree, key) == NULL) return;
