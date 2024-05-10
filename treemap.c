@@ -109,8 +109,11 @@ void removeNode(TreeMap * tree, TreeNode* node) {
         } else {
             node->parent->right = node->left;
         }
-        node->left->parent= node->parent;
 
+        if(node->left != NULL){
+            node->left->parent= node->parent;
+        }
+        
     } else {
         TreeNode *min = minimum(node->right);
         if (min->parent != node){
