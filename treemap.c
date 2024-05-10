@@ -133,7 +133,9 @@ void removeNode(TreeMap * tree, TreeNode* node) {
         min->parent = node->parent;
     }
     free(node->pair->key);
-
+    free(node->pair->value);
+    free(node->pair);
+    free(node);
 }
     
 
