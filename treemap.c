@@ -81,79 +81,64 @@ void insertTreeMap(TreeMap * tree, void* key, void * value) {
 TreeNode * minimum(TreeNode * x){
     while (x->left != NULL){
         x = x->left;
-    }   
-    return x;                                                         
+    }
+    return x;
 }
+
 
 void removeNode(TreeMap * tree, TreeNode* node) {
     if (node == NULL) return;
 
-    // Nodo sin hijos
-    if (node->left == NULL && node->right == NULL) {
+    TreeNode *child = NULL;  // Usado para almacenar el hijo único, si existe.
+
+    if (node->left == NULL || node->right == NULL) {
+        // El nodo tiene cero o un solo hijo.
+        child = (node->left != NULL) ? node->left : node->right;
+
         if (node->parent == NULL) {
-            tree->root = NULL; // Si el nodo es también la raíz y no tiene hijos.
-        } else if (node == node->parent->left) {
-            node->parent->left = NULL;
-        } else if (node == node->parent->right) {
-            node->parent->right = NULL;
-        }
-    }
-    // Nodo con solo hijo derecho
-    else if (node->left == NULL) {
-        if (node->parent == NULL) {
-            tree->root = node->right;
-        } else if (node == node->parent->left) {
-            node->parent->left = node->right;
+            // El nodo es la raíz.
+            tree->root = child;
         } else {
-            node->parent->right = node->right;
-        }
-        if (node->right != NULL) {
-            node->right->parent = node->parent;
-        }
-    }
-    // Nodo con solo hijo izquierdo
-    else if (node->right == NULL) {
-        if (node->parent == NULL) {
-            tree->root = node->left;
-        } else if (node == node->parent->left) {
-            node->parent->left = node->left;
-        } else {
-            node->parent->right = node->left;
-        }
-        if (node->left != NULL) {
-            node->left->parent = node->parent;
-        }
-    }
-    // Nodo con dos hijos
-    else {
-        TreeNode *min = minimum(node->right);
-        if (min->parent != node) {
-            if (min->right != NULL) {
-                min->right->parent = min->parent;
+            // El nodo no es la raíz. Actualizamos el enlace del padre.
+            if (node == node->parent->left) {
+                node->parent->left = child;
+            } else {
+                node->parent->right = child;
             }
-            min->parent->left = min->right;
-            min->right = node->right;
-            node->right->parent = min;
         }
+        if (child != NULL) {
+            // Si hay un hijo, actualizamos su enlace parent.
+            child->parent = node->parent;
+        }
+    } else {
+        // El nodo tiene dos hijos. Necesitamos encontrar el sucesor mínimo en el subárbol derecho.
+        TreeNode *min = minimum(node->right);
+        // Remover el mínimo del subárbol derecho.
+        removeNode(tree, min);
+
+        // Reemplazamos 'node' con 'min'.
+        min->left = node->left;
+        min->right = node->right;
+        min->parent = node->parent;
+        if (node->left != NULL) node->left->parent = min;
+        if (node->right != NULL) node->right->parent = min;
+
         if (node->parent == NULL) {
             tree->root = min;
-        } else if (node == node->parent->left) {
-            node->parent->left = min;
         } else {
-            node->parent->right = min;
+            if (node == node->parent->left) {
+                node->parent->left = min;
+            } else {
+                node->parent->right = min;
+            }
         }
-        min->left = node->left;
-        min->left->parent = min;
-        min->parent = node->parent;
     }
 
-    // Liberar recursos asociados al nodo eliminado
+    // Liberar los recursos del nodo a eliminar.
     free(node->pair->key);
     free(node->pair);
     free(node);
 }
-
-    
 
 
 
