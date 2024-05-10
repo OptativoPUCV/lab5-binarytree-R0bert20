@@ -349,3 +349,17 @@ Fri 10 May 2024 03:50:37 PM UTC:
  tests:  26|1
 total_score: 55/70
 a06c97f
+Fri 10 May 2024 03:55:34 PM UTC: 
+ treemap.c | 107 +++++++++++++++++++++++++++++++++++++-------------------------
+ 1 file changed, 64 insertions(+), 43 deletions(-)
+In file included from test.c:4:
+treemap.c:89:18: error: unknown type name ‘tree_map’; did you mean ‘TreeMap’?
+   89 | void remove_node(tree_map *tree, tree_node *z) {
+      |                  ^~~~~~~~
+      |                  TreeMap
+treemap.c:89:34: error: unknown type name ‘tree_node’; did you mean ‘TreeNode’?
+   89 | void remove_node(tree_map *tree, tree_node *z) {
+      |                                  ^~~~~~~~~
+      |                                  TreeNode
+Compilation failed
+69eb4eb
