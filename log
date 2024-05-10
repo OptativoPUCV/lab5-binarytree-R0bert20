@@ -363,3 +363,9 @@ treemap.c:89:34: error: unknown type name ‘tree_node’; did you mean ‘TreeN
       |                                  TreeNode
 Compilation failed
 69eb4eb
+Fri 10 May 2024 03:56:09 PM UTC: 
+ treemap.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ tests:  26|1
+total_score: 55/70
+2a4d6ce

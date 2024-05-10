@@ -86,10 +86,10 @@ TreeNode * minimum(TreeNode * x){
     return x;                                                         }
 
 // cambiar
-void remove_node(tree_map *tree, tree_node *z) {
+void remove_node(TreeMap *tree, TreeNode *z) {
     if (z == NULL) return;
 
-    tree_node *y, *x;
+    TreeNode *y, *x;
 
     // Node z has no left child
     if (z->left == NULL) {
