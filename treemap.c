@@ -85,76 +85,56 @@ TreeNode * minimum(TreeNode * x){
     
     return x;                                                         }
 
-// cambiar
-void remove_node(TreeMap *tree, TreeNode *z) {
-    if (z == NULL) return;
+void removeNode(TreeMap * tree, TreeNode* node) {
+    if (node == NULL) return;
 
-    TreeNode *y, *x;
-
-    // Node z has no left child
-    if (z->left == NULL) {
-        x = z->right;
-        // Node z is the root
-        if (z->parent == NULL) {
-            tree->root = x;
-        } else if (z == z->parent->left) { // Node z is a left child
-            z->parent->left = x;
-        } else { // Node z is a right child
-            z->parent->right = x;
-        }
-        if (x != NULL) {
-            x->parent = z->parent;
-        }
-    }
-    // Node z has no right child
-    else if (z->right == NULL) {
-        x = z->left;
-        // Node z is the root
-        if (z->parent == NULL) {
-            tree->root = x;
-        } else if (z == z->parent->left) { // Node z is a left child
-            z->parent->left = x;
-        } else { // Node z is a right child
-            z->parent->right = x;
-        }
-        x->parent = z->parent;
-    }
-    // Node z has two children
-    else {
-        // Find the minimum node from the right subtree
-        y = z->right;
-        while (y->left != NULL) {
-            y = y->left;
+    if (node->left == NULL){
+        if (node->parent == NULL){
+            tree->root = node->right;
+        } else if (node == node ->parent->left){
+            node->parent->left = node->right;
+        } else {
+            node->parent->right = node->right;
         }
 
-        // y is successor of z
-        x = y->right;
-        if (y->parent != z) {
-            if (x != NULL) {
-                x->parent = y->parent;
+        if (node->right != NULL){
+            node->right->parent = node->parent;
+        }
+
+    } else if (node->right == NULL){
+        if (node->parent == NULL){
+            tree->root = node->left;
+        } else if(node == node->parent->left){
+            node->parent->left = node->left;
+        } else {
+            node->parent->right = node->left;
+        }
+        node->left->parent= node->parent;
+
+    } else {
+        TreeNode *min = minimum(node->right);
+        if (min->parent != node){
+            if(min->right != NULL){
+                min->right->parent = min->parent;
             }
-            y->parent->left = x;  // y is assumed to be the left child
-            y->right = z->right;
-            z->right->parent = y;
-        } else {
-            x = y;
+            min->parent->left = min->right;
+            min->right = node->right;
+            min->right->parent = min;
         }
 
-        // Replace z with y
-        if (z->parent == NULL) {
-            tree->root = y;
-        } else if (z == z->parent->left) {
-            z->parent->left = y;
+        if (node->parent == NULL){
+            tree->root = min;
+        } else if (node == node->parent->left){
+            node->parent->left = min;
         } else {
-            z->parent->right = y;
+            node->parent->right = min;
         }
-        y->parent = z->parent;
-        y->left = z->left;
-        z->left->parent = y;
+        min->left = node->left;
+        min->left->parent = min;
+        min->parent = node->parent;
     }
 
-    // Free the removed node
-    free(z);
+    free(node->pair->key);
 }
     
 
