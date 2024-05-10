@@ -297,3 +297,13 @@ Fri 10 May 2024 03:12:41 PM UTC:
  tests:  22|2
 total_score: 45/70
 1f0ac8e
+Fri 10 May 2024 03:13:24 PM UTC: 
+ treemap.c | 5 -----
+ 1 file changed, 5 deletions(-)
+/nix/store/039g378vc3pc3dvi9dzdlrd0i4q93qwf-binutils-2.39/bin/ld: /tmp/ccxL16NI.o: in function `first_test1':
+test.c:(.text+0xd45): undefined reference to `firstTreeMap'
+/nix/store/039g378vc3pc3dvi9dzdlrd0i4q93qwf-binutils-2.39/bin/ld: /tmp/ccxL16NI.o: in function `first_test2':
+test.c:(.text+0xdf8): undefined reference to `firstTreeMap'
+collect2: error: ld returned 1 exit status
+Compilation failed
+2014a5d
