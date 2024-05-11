@@ -88,72 +88,76 @@ TreeNode * minimum(TreeNode * x){
 void removeNode(TreeMap * tree, TreeNode* node) {
     if (node == NULL) return;
 
-    if (node->left == NULL){
-        if (node->parent == NULL){
+    if (node->left == NULL) {
+        if (node->parent == NULL) {
             tree->root = node->right;
-            if (node->right != NULL){
+            if (node->right != NULL) {
                 node->right->parent = NULL;
             }
         }
-        else if (node == node->parent->left){
+        else if (node == node->parent->left) {
             node->parent->left = node->right;
-            if (node->right != NULL){
+            if (node->right != NULL) {
                 node->right->parent = node->parent;
             }
         }
-        else{
+        else {
             node->parent->right = node->right;
-            if (node->right != NULL){
+            if (node->right != NULL) {
                 node->right->parent = node->parent;
             }
         }
         free(node->pair->key);
+        free(node);
     }
-
-    else if (node->right == NULL){
-        if (node->parent == NULL){
+    else if (node->right == NULL) {
+        if (node->parent == NULL) {
             tree->root = node->left;
-            if (node->left != NULL){
+            if (node->left != NULL) {
                 node->left->parent = NULL;
             }
         }
-        else if (node == node->parent->left){
+        else if (node == node->parent->left) {
             node->parent->left = node->left;
-            if (node->left != NULL){
+            if (node->left != NULL) {
                 node->left->parent = node->parent;
             }
         }
-        else{
+        else {
             node->parent->right = node->left;
-            if (node->left != NULL){
+            if (node->left != NULL) {
                 node->left->parent = node->parent;
             }
         }
         free(node->pair->key);
+        free(node);
     }
     else {
         TreeNode * min = minimum(node->right);
-        if (min->parent != node){
-            if (min->right != NULL){
+        if (min->parent != node) {
+            if (min->right != NULL) {
                 min->right->parent = min->parent;
             }
             min->parent->left = min->right;
             min->right = node->right;
             min->right->parent = min;
         }
-        if (node->parent == NULL){
+        if (node->parent == NULL) {
             tree->root = min;
         }
-        else if (node == node->parent->left){
+        else if (node == node->parent->left) {
             node->parent->left = min;
         }
-        else{
+        else {
             node->parent->right = min;
         }
         min->left = node->left;
-        min->left->parent = min;
+        if (node->left != NULL) {
+            node->left->parent = min;
+        }
         min->parent = node->parent;
         free(node->pair->key);
+        free(node);
     }
 }
 
